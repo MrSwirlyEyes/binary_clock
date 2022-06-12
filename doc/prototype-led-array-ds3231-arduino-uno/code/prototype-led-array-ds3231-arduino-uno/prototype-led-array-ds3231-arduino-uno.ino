@@ -1,8 +1,13 @@
-// Binary Clock LED Array Prototype on the Arduino UNO
+// Binary Clock LED Array + RTC DS3231 Prototype on the Arduino UNO
 //
 // Blinks/toggles an array of LEDs ON and OFF
+//  and prints timestamp from the DS3231 RTC
 
 
+
+#include <ds3231.h>
+
+#define BAUDRATE 9600
 
 #define NUM_LEDS 13
 
@@ -43,14 +48,28 @@ byte leds[NUM_LEDS] = {
   m_LSD_8
 };
 
+// Instantiate RTC DS3231 object
+DS3231 rtc = DS3231();
+
+
+
 void setup() {
+  Serial.begin(BAUDRATE);
+
   // Configure ALL led pins to be a digital OUTPUT
-  for (uint8_t i = 0; i < NUM_LEDS; i++) {
+  for (uint8_t i = 0; i < NUM_LEDS; i++)
     pinMode(leds[i],OUTPUT);
-  }
 }
 
-void loop() { 
+
+
+void loop() {
+  // Retrieve the time from the RTC
+  rtc.get_time();
+
+  // Print the RTC time
+  rtc.display_time();
+
   // Write all LEDs HIGH/ON
   for (uint8_t i = 0; i < NUM_LEDS; i++) {
     digitalWrite(leds[i],HIGH);
