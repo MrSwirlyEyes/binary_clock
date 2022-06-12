@@ -27,7 +27,7 @@
 #define m_LSD_4 1
 #define m_LSD_8 0
 
-byte leds[NUM_LEDS] = {
+uint8_t leds[NUM_LEDS] = {
   h_MSD_1,
   h_MSD_2,
   h_LSD_1,
